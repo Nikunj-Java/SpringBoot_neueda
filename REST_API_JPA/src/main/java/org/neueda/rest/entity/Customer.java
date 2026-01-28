@@ -7,25 +7,24 @@ import jakarta.persistence.*;
 public class Customer {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private int id;
+    private Integer id;  // Changed to Integer to allow null values
     private String name;
     private String email;
 
-    public Customer(){
-
+    public Customer() {
     }
 
-    public Customer(int id, String name, String email) {
+    public Customer(Integer id, String name, String email) {
         this.id = id;
         this.name = name;
         this.email = email;
     }
 
-    public int getId() {
+    public Integer getId() {
         return id;
     }
 
-    public void setId(int id) {
+    public void setId(Integer id) {
         this.id = id;
     }
 

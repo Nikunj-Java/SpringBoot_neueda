@@ -10,7 +10,7 @@ public class CustomerService {
     @Autowired
     private CustomerRepo repo;
 
-    public Customer save(Customer customer){
-        return  repo.save(customer);
+    public Customer save(Customer customer) {
+        return repo.save(customer);
     }
 }
