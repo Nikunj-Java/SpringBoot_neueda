@@ -23,7 +23,13 @@ public class CustomerService {
     }
     public void deleteCustomer(Integer id){
         repo.deleteById(id);
+
     }
     //update by id--> we will use Save Method only
+    //custome method
+    public Customer getCustomerByEmail(String email){
+       return repo.findByEmail(email).orElse(null);
+    }
+
 
 }
