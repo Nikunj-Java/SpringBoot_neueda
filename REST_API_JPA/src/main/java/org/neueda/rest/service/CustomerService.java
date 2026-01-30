@@ -13,6 +13,7 @@ public class CustomerService {
     private CustomerRepo repo;
 
     public Customer save(Customer customer) {
+
         return repo.save(customer);
     }
     public List<Customer> getAllCustomers(){
@@ -30,6 +31,9 @@ public class CustomerService {
     public Customer getCustomerByEmail(String email){
        return repo.findByEmail(email).orElse(null);
     }
-
+     //Email Exists
+    public boolean emailExists(String email){
+        return  repo.existsByEmail(email);
+    }
 
 }

@@ -1,6 +1,8 @@
 package org.neueda.rest.controller;
 
 import org.neueda.rest.entity.Customer;
+import org.neueda.rest.exception.DuplicateEmailException;
+import org.neueda.rest.exception.InvalidParamsException;
 import org.neueda.rest.service.CustomerService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -18,9 +20,16 @@ public class CustomerController {
     //ResponseEntity--> Response Body, HTTP Satus Code, HTTP Headers
     @PostMapping("/")
     public ResponseEntity<Customer> save(@RequestBody Customer customer) {
+        if((customer == null) ||(customer.getName()==null) || (customer.getEmail()==null)||(customer.getEmail().isBlank()||(customer.getName().isBlank()))){
+            throw  new InvalidParamsException("Customer name and Email must be provided!");
+        }
+        // implement the logic here
+        if(service.emailExists(customer.getEmail())){
+            throw new DuplicateEmailException("Email already Exists: "+customer.getEmail());
+        }
 
-        service.save(customer);
-        return ResponseEntity.status(HttpStatus.CREATED).body(customer);
+        Customer saveCustomer=service.save(customer);
+        return ResponseEntity.status(HttpStatus.CREATED).body(saveCustomer);
     }
     @GetMapping("/")
     public ResponseEntity<List<Customer>> getAllCustomers(){
@@ -50,6 +59,9 @@ public class CustomerController {
     }
     @GetMapping("/by-email")
     public ResponseEntity<Customer> getCustomerByEmail(@RequestParam String email){
+        if(email.isBlank()){
+            throw  new InvalidParamsException("Customer Email Must Be Provided!");
+        }
         Customer customerEmail=service.getCustomerByEmail(email);
         return ResponseEntity.ok(customerEmail);
 
